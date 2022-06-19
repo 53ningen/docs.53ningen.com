@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "mdwiki",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/yanagyu/Workspace/projects/docs.53ningen.com/amplify/backend/api/mdwiki/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AWS_IAM"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-06-09T18:20:06.751Z",
+        "keyDescription": "for testing"
+      }
+    ],
+    "conflictResolution": {}
+  }
+}

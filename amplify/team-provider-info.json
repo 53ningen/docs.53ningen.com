@@ -1,0 +1,39 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mdwiki-dev-05148-authRole",
+      "UnauthRoleArn": "arn:aws:iam::417448763805:role/amplify-mdwiki-dev-05148-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::417448763805:role/amplify-mdwiki-dev-05148-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-mdwiki-dev-05148-deployment",
+      "UnauthRoleName": "amplify-mdwiki-dev-05148-unauthRole",
+      "StackName": "amplify-mdwiki-dev-05148",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:417448763805:stack/amplify-mdwiki-dev-05148/12c47800-e80c-11ec-99b4-0e12e915409d",
+      "AmplifyAppId": "d1b458495kairv"
+    },
+    "categories": {
+      "auth": {
+        "mdwiki": {}
+      }
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mdwiki-prod-163038-authRole",
+      "UnauthRoleArn": "arn:aws:iam::247601741829:role/amplify-mdwiki-prod-163038-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::247601741829:role/amplify-mdwiki-prod-163038-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-mdwiki-prod-163038-deployment",
+      "UnauthRoleName": "amplify-mdwiki-prod-163038-unauthRole",
+      "StackName": "amplify-mdwiki-prod-163038",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:247601741829:stack/amplify-mdwiki-prod-163038/b8163900-efa1-11ec-ab6e-0e2eba41f4b9",
+      "AmplifyAppId": "d1p7af2ofsne8g"
+    },
+    "categories": {
+      "auth": {
+        "userPoolGroups": {},
+        "mdwiki": {}
+      }
+    }
+  }
+}
