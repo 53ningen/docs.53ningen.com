@@ -63,7 +63,7 @@ const theme = createTheme({
   components: {
     MuiLink: {
       defaultProps: {
-        underline: 'hover',
+        underline: 'none',
       },
     },
     MuiChip: {

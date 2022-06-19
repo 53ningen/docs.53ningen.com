@@ -1,14 +1,15 @@
+import PublicIcon from '@mui/icons-material/Public'
 import { Box, Skeleton, Typography } from '@mui/material'
 import 'katex/dist/katex.min.css'
 import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Link } from 'react-router-dom'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { Tweet } from 'react-twitter-widgets'
 import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
+import { Link } from '../common/Link'
 import { Section } from './Section'
 
 type PostBodyProps = {
@@ -48,11 +49,14 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
           ),
           a: ({ children, href, ...props }) =>
             href?.startsWith('/') ? (
-              <Link to={href} {...props} children={children} />
+              <Link href={href} {...props} children={children} />
             ) : (
-              <a href={href} target="_blank" rel="noreferrer" {...props}>
-                {children}
-              </a>
+              <>
+                <a href={href ?? '/'} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }} {...props}>
+                  {children}
+                </a>{' '}
+                <PublicIcon fontSize="inherit" color="action" sx={{ verticalAlign: 'middle' }} />
+              </>
             ),
           code({ inline, className, children }) {
             const match = /language-(\w+)/.exec(className || '')
