@@ -33,6 +33,12 @@
       "auth": {
         "userPoolGroups": {},
         "mdwiki": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1p7af2ofsne8g",
+          "type": "manual"
+        }
       }
     }
   }
