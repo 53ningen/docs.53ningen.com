@@ -14,3 +14,19 @@ Markdown で記述できる個人向けドキュメント管理システム
 
 - [ ] 目次設置設定機能
 - [ ] 非公開ページ作成機能
+- [ ] ファイルアップロード機能
+
+## 開発フロー
+
+### 開発準備
+
+```
+$ git clone git@github.com:53ningen/docs.53ningen.com.git
+$ amplify env pull prod
+```
+
+### デプロイ
+
+```
+$ amplify publish
+```

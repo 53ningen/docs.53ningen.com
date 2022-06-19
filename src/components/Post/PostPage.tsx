@@ -2,6 +2,7 @@ import { Stack } from '@mui/material'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Constants } from '../../Constants'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
@@ -14,6 +15,9 @@ function PostPage() {
   const { pathname: id } = useLocation()
   const { post, isLoading } = usePost(id)
   const { setLoading } = useLoadingContext()
+  const { siteTitle, siteUrl } = Constants
+  const shareTitle = id === '/' ? siteTitle : `${post?.title} | ${siteTitle}`
+  const shareUrl = id === '/' ? siteUrl : `${siteUrl}${id}`
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -37,7 +41,7 @@ function PostPage() {
         <PostHeader post={post} />
         <PostBody body={post?.body} />
         <Stack direction="row" spacing={2}>
-          <ShareButtons url="https://docs.53ningen.com" title="Test" size={24} />
+          <ShareButtons url={shareUrl} title={shareTitle} size={24} />
         </Stack>
       </Stack>
     </>
