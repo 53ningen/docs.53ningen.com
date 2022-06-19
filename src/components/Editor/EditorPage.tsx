@@ -19,6 +19,8 @@ function EditorPage() {
   useEffect(() => {
     if (!pathname.startsWith('/edit/')) {
       navigate('/')
+    } else if (pathname.endsWith('/')) {
+      navigate(pathname.substring(0, pathname.length - 1))
     } else if (!isLoading && !isAuthenticated) {
       navigate('/signin')
     }

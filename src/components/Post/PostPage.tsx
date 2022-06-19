@@ -18,7 +18,9 @@ function PostPage() {
   const navigate = useNavigate()
   useEffect(() => {
     setLoading(isLoading)
-    if (!isLoading && !post) {
+    if (id.endsWith('/')) {
+      navigate(id.substring(0, id.length - 1))
+    } else if (!isLoading && !post) {
       navigate(`/edit${id}`)
     }
   }, [post, isLoading, id, navigate, setLoading])
