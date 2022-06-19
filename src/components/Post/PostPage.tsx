@@ -5,6 +5,7 @@ import { Constants } from '../../Constants'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
+import { Footer } from '../common/Footer'
 import { Meta } from '../common/Meta'
 import { ShareButtons } from '../common/ShareButtons'
 import { SignInOutButton } from '../common/SignInOutButton'
@@ -38,9 +39,10 @@ function PostPage() {
         </Stack>
         <PostHeader post={post} />
         <PostBody body={post?.body} />
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} pt={8}>
           <ShareButtons url={shareUrl} title={shareTitle} size={24} />
         </Stack>
+        <Footer />
       </Stack>
     </>
   )
