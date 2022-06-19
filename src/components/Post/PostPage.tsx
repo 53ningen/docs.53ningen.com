@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material'
 import { useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Constants } from '../../Constants'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
+import { Meta } from '../common/Meta'
 import { ShareButtons } from '../common/ShareButtons'
 import { SignInOutButton } from '../common/SignInOutButton'
 import { PostBody } from './PostBody'
@@ -31,9 +31,7 @@ function PostPage() {
   return (
     <>
       <Stack spacing={2}>
-        <Helmet>
-          <title>{post?.title}</title>
-        </Helmet>
+        <Meta title={post?.title} description={post?.body} />
         <Stack direction="row" flex="flow">
           <Breadcrumbs path={post?.id} />
           <SignInOutButton sx={{ marginLeft: 'auto' }} />

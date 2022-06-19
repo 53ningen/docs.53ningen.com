@@ -1,14 +1,16 @@
 import { Button, Container, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
+import { Constants } from '../../Constants'
 import { useAuthContext } from '../../context/AuthContext'
 import { Breadcrumbs } from '../common/Breadcrumbs'
+import { Meta } from '../common/Meta'
 
 export const SignInPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { isAuthenticated, signIn } = useAuthContext()
+  const { siteUrl } = Constants
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -29,10 +31,7 @@ export const SignInPage = () => {
   }
   return (
     <Container maxWidth="xs">
-      <Helmet>
-        <title>Sign into docs.53ningen.com</title>
-      </Helmet>
-
+      <Meta title={`Sign into ${siteUrl}`} description="Sign in page" />
       <Stack spacing={4} textAlign="center">
         <Breadcrumbs path="/signin" />
         <Typography variant="h1">Sign into docs.53ningen.com</Typography>

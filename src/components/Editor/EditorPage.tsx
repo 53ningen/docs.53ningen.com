@@ -1,10 +1,10 @@
 import { Stack } from '@mui/material'
 import { useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../context/AuthContext'
 import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
+import { Meta } from '../common/Meta'
 import { Editor } from './Editor'
 import { EditorHeader } from './EditorHeader'
 
@@ -28,9 +28,7 @@ function EditorPage() {
   return (
     <>
       <Stack spacing={2}>
-        <Helmet>
-          <title>{post?.title}</title>
-        </Helmet>
+        <Meta title={post?.title} description={post?.body} />
         <Breadcrumbs path={id} />
         <EditorHeader
           id={id}
