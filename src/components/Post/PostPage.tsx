@@ -31,7 +31,7 @@ function PostPage() {
   return (
     <>
       <Stack spacing={2}>
-        <Meta title={post?.title} description={post?.body} />
+        <Meta title={shareTitle} description={post?.body} />
         <Stack direction="row" flex="flow">
           <Breadcrumbs path={post?.id} />
           <SignInOutButton sx={{ marginLeft: 'auto' }} />

@@ -2,6 +2,7 @@ import { Stack } from '@mui/material'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../context/AuthContext'
+import { useLoadingContext } from '../../context/LoadingContext'
 import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
 import { Meta } from '../common/Meta'
@@ -11,12 +12,14 @@ import { EditorHeader } from './EditorHeader'
 function EditorPage() {
   const { isAuthenticated } = useAuthContext()
   const { pathname, hash } = useLocation()
+  const { setLoading } = useLoadingContext()
   const id = pathname.slice('/edit'.length, pathname.length)
   const { post, isLoading } = usePost(id)
   const isNotFound = () => !isLoading && !post
 
   const navigate = useNavigate()
   useEffect(() => {
+    setLoading(isLoading)
     if (!pathname.startsWith('/edit/')) {
       navigate('/')
     } else if (pathname !== '/edit/' && pathname.endsWith('/')) {
@@ -24,7 +27,7 @@ function EditorPage() {
     } else if (!isLoading && !isAuthenticated) {
       navigate('/signin')
     }
-  }, [pathname, navigate, isLoading, isAuthenticated])
+  }, [pathname, navigate, isLoading, isAuthenticated, setLoading])
   return (
     <>
       <Stack spacing={2}>

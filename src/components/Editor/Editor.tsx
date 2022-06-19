@@ -23,11 +23,11 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
   const [titleText, setTitle] = useState('')
   const [bodyText, setBody] = useState('')
   const [contents, setContents] = useState<Content[]>([])
+  const [mounted, setMounted] = useState(false)
   const { setLoading } = useLoadingContext()
 
   useEffect(() => {
-    setLoading(isLoading)
-    if (post) {
+    if (!mounted && post) {
       setTitle(post.title)
       if (hash) {
         const cs = getContents(post.body)
@@ -36,8 +36,10 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
       } else {
         setBody(post.body)
       }
+      setMounted(true)
+      setLoading(false)
     }
-  }, [post, hash, contents, setLoading, isLoading])
+  }, [post, hash, contents, setLoading, isLoading, mounted])
 
   const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)
