@@ -37,11 +37,19 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
           ),
           ul: ({ children, depth, ...props }) =>
             depth === 0 ? (
-              <Box mt={2} mb={4}>
-                <ul style={{ paddingLeft: '1em' }}>{children}</ul>
+              <Box mb={4}>
+                <ul style={{ marginTop: 0, paddingTop: 0, paddingLeft: '1em' }}>{children}</ul>
               </Box>
             ) : (
-              <ul style={{ paddingLeft: 0, marginLeft: '1em' }}>{children}</ul>
+              <ul style={{ marginTop: 0, paddingTop: 0, paddingLeft: 0, marginLeft: '1em' }}>{children}</ul>
+            ),
+          ol: ({ children, depth, ...props }) =>
+            depth === 0 ? (
+              <Box mb={4}>
+                <ol style={{ paddingLeft: '1em' }}>{children}</ol>
+              </Box>
+            ) : (
+              <ol style={{ paddingLeft: 0, marginLeft: '1em' }}>{children}</ol>
             ),
           li: ({ children }) => (
             <li style={{ textAlign: 'justify' }} key={children.toString()}>

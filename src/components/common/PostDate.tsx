@@ -1,4 +1,4 @@
-import { Chip, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Chip, Skeleton, Typography } from '@mui/material'
 import { FC } from 'react'
 
 type PostDateProps = {
@@ -12,10 +12,10 @@ export const PostDate: FC<PostDateProps> = ({ created, updated, showPlaceholder 
     const c = new Date(created).toLocaleString()
     const u = new Date(updated).toLocaleString()
     return (
-      <Stack direction="row" spacing={2} sx={{ overflowWrap: 'anywhere' }} overflow="scroll">
-        <Chip variant="outlined" size="small" label={`Created: ${c}`} />
+      <Box>
+        <Chip variant="outlined" size="small" label={`Created: ${c}`} />{' '}
         <Chip variant="outlined" size="small" label={`Updated: ${u}`} />
-      </Stack>
+      </Box>
     )
   } else if (showPlaceholder) {
     return (
