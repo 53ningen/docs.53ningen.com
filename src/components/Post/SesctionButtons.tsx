@@ -3,26 +3,28 @@ import LinkIcon from '@mui/icons-material/Link'
 import { Box, IconButton, Stack, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../context/AuthContext'
 
 type SectionButtonsProps = {
   copyUrl: string
   editUrl: string
 }
 
-export const SectionButtons: FC<SectionButtonsProps> = ({
-  copyUrl,
-  editUrl,
-}) => {
+export const SectionButtons: FC<SectionButtonsProps> = ({ copyUrl, editUrl }) => {
   const navigate = useNavigate()
-
+  const { isAuthenticated } = useAuthContext()
   return (
     <Box>
       <Stack direction="row">
-        <Tooltip title="Edit">
-          <IconButton size="small" onClick={() => navigate(editUrl)}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
+        {isAuthenticated ? (
+          <Tooltip title="Edit">
+            <IconButton size="small" onClick={() => navigate(editUrl)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <></>
+        )}
         <Tooltip title="Copy URL">
           <IconButton size="small" onClick={() => copy(copyUrl)}>
             <LinkIcon />
