@@ -3,31 +3,27 @@ import { remark } from 'remark'
 
 type SectionIndex = [number, number, number, number, number, number]
 
-export const getContents = (body: string) => remark().parse(body).children
-
-export const getMarkdownText = (contents: Content[]) => remark().stringify({ type: 'root', children: contents })
-
-export const getSectionBody = (hash: string, contents: Content[]) => {
-  const { start, end } = getSectionIndexRange(hash, contents)
+export const getSectionBody = (hash: string, body: string) => {
+  const contents = remark().parse(body).children
+  const { start, end } = getSectionPosition(hash, contents)
   if (start < 0 || end < 0) {
     throw Error(`Could not find the section: ${hash}`)
   }
-  const es = contents.slice(start, end >= 0 ? end : contents.length)
-  return remark().stringify({ type: 'root', children: es })
+  return body.substring(start, end)
 }
 
-export const replaceSection = (hash: string, section: string, contents: Content[]) => {
-  const cs = contents.slice()
-  const { start, end } = getSectionIndexRange(hash, cs)
+export const replaceSection = (hash: string, section: string, body: string) => {
+  const contents = remark().parse(body).children
+  const { start, end } = getSectionPosition(hash, contents)
   if (start < 0 || end < 0) {
     throw Error(`Could not find the section: ${hash}`)
   }
-  const r = remark().parse(section)
-  cs.splice(start, end - start, ...r.children)
-  return cs
+  const head = body.slice(0, start)
+  const foot = body.slice(end, body.length)
+  return head + section + foot
 }
 
-const getSectionIndexRange = (hash: string, contents: Content[]) => {
+const getSectionPosition = (hash: string, contents: Content[]) => {
   var indexCounter = [0, 0, 0, 0, 0, 0] as SectionIndex
   var [start, end, targetDepth] = [-1, -1, -1]
   for (var i = 0; i < contents.length; i++) {
@@ -38,20 +34,19 @@ const getSectionIndexRange = (hash: string, contents: Content[]) => {
       const el = e.position.end.line.toString()
       const ec = e.position.end.column.toString()
       const h = `#${[sl, sc, el, ec].toString()}`
-
       indexCounter.fill(0, e.depth, 6)
       indexCounter[e.depth - 1]++
       if (h === hash) {
-        start = i
+        start = e.position.start.offset!
         targetDepth = e.depth
       } else if (start >= 0 && e.depth.valueOf() <= targetDepth) {
-        end = i
+        end = e.position.start.offset! - 1
         break
       }
     }
   }
   if (start >= 0 && end < 0) {
-    end = contents.length
+    end = contents[contents.length - 1].position!.end.offset!
   }
   return { start, end }
 }

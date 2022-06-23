@@ -1,13 +1,12 @@
 import { Box, TextField } from '@mui/material'
 import { API, graphqlOperation } from 'aws-amplify'
-import { Content } from 'mdast'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Post } from '../../API'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { createPost, deletePost, updatePost } from '../../graphql/mutations'
 import { DeleteButton } from './DeleteButton'
-import { getContents, getMarkdownText, getSectionBody, replaceSection } from './EditorUtils'
+import { getSectionBody, replaceSection } from './EditorUtils'
 import { SaveButton } from './SaveButton'
 
 type EditorProps = {
@@ -22,7 +21,6 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
   const navigate = useNavigate()
   const [titleText, setTitle] = useState('')
   const [bodyText, setBody] = useState('')
-  const [contents, setContents] = useState<Content[]>([])
   const [mounted, setMounted] = useState(false)
   const { setLoading } = useLoadingContext()
 
@@ -30,16 +28,14 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
     if (!mounted && post) {
       setTitle(post.title)
       if (hash) {
-        const cs = getContents(post.body)
-        setContents(cs)
-        setBody(getSectionBody(hash, cs))
+        setBody(getSectionBody(hash, post.body))
       } else {
         setBody(post.body)
       }
       setMounted(true)
       setLoading(false)
     }
-  }, [post, hash, contents, setLoading, isLoading, mounted])
+  }, [post, hash, setLoading, isLoading, mounted])
 
   const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)
@@ -62,7 +58,7 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
   const onClickSave = async () => {
     if (isLoading) return
     const query = post ? updatePost : createPost
-    const body = post && hash ? getMarkdownText(replaceSection(hash, bodyText, contents)) : bodyText
+    const body = post && hash ? replaceSection(hash, bodyText, post.body) : bodyText
     try {
       setLoading(true)
       const res = await API.graphql(

@@ -21,7 +21,6 @@ export const Section: FC<SectionProps> = ({ children, node }) => {
   ) {
     throw new Error('Unexpected Error')
   }
-
   const startLine = node.position?.start.line
   const startColumn = node.position?.start.column
   const endLine = node.position?.end.line
