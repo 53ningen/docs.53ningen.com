@@ -36,6 +36,7 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
                 {children}
               </Typography>
             ),
+            img: ({ alt, ...props }) => <img alt={alt} {...props} style={{ maxWidth: '100%' }} />,
             ul: ({ children, depth, ...props }) =>
               depth === 0 ? (
                 <Box mb={4}>
