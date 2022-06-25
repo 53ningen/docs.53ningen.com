@@ -6,7 +6,10 @@ type Post
   @auth(
     rules: [{ allow: public, provider: iam, operations: [read] }, { allow: private, provider: iam }, { allow: public }]
   ) {
-  id: ID!
+  id: ID! @primaryKey
   title: String!
   body: String!
+  type: String! @index(name: "postsByUpdatedAt", queryField: "listPostsOrderByUpdatedAt", sortKeyFields: ["updatedAt"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }

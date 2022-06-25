@@ -8,6 +8,7 @@ export const getPost = /* GraphQL */ `
       id
       title
       body
+      type
       createdAt
       updatedAt
     }
@@ -15,15 +16,53 @@ export const getPost = /* GraphQL */ `
 `;
 export const listPosts = /* GraphQL */ `
   query ListPosts(
+    $id: ID
     $filter: ModelPostFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listPosts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         title
         body
+        type
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const listPostsOrderByUpdatedAt = /* GraphQL */ `
+  query ListPostsOrderByUpdatedAt(
+    $type: String!
+    $updatedAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPostsOrderByUpdatedAt(
+      type: $type
+      updatedAt: $updatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        body
+        type
         createdAt
         updatedAt
       }

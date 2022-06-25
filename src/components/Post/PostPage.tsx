@@ -7,6 +7,7 @@ import { usePost } from '../../hooks/usePage'
 import { Breadcrumbs } from '../common/Breadcrumbs'
 import { Footer } from '../common/Footer'
 import { Meta } from '../common/Meta'
+import { RecentUpdates } from '../common/RecentUpdates'
 import { ShareButtons } from '../common/ShareButtons'
 import { SignInOutButton } from '../common/SignInOutButton'
 import { TOC } from '../common/TOC'
@@ -42,6 +43,7 @@ const PostPage = () => {
     <Stack spacing={4}>
       <Breadcrumbs path={post?.id} />
       <TOC body={post?.body} depth={3} />
+      <RecentUpdates />
       <SignInOutButton />
     </Stack>
   )

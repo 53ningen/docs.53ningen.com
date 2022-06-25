@@ -8,6 +8,7 @@ export const onCreatePost = /* GraphQL */ `
       id
       title
       body
+      type
       createdAt
       updatedAt
     }
@@ -19,6 +20,7 @@ export const onUpdatePost = /* GraphQL */ `
       id
       title
       body
+      type
       createdAt
       updatedAt
     }
@@ -30,6 +32,7 @@ export const onDeletePost = /* GraphQL */ `
       id
       title
       body
+      type
       createdAt
       updatedAt
     }

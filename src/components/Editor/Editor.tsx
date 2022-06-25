@@ -63,7 +63,7 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
       setLoading(true)
       const res = await API.graphql(
         graphqlOperation(query, {
-          input: { id, title: titleText, body },
+          input: { id, title: titleText, body, type: 'Post' },
         })
       )
       if ('data' in res && res.data) {
