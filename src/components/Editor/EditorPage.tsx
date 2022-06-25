@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import { Box, Paper, Stack } from '@mui/material'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../context/AuthContext'
@@ -29,21 +29,23 @@ function EditorPage() {
     }
   }, [pathname, navigate, isLoading, isAuthenticated, setLoading])
   return (
-    <>
-      <Stack spacing={2}>
-        <Meta title={post?.title} description={post?.body} />
-        <Breadcrumbs path={id} />
-        <EditorHeader
-          id={id}
-          hash={hash}
-          created={post?.createdAt}
-          updated={post?.updatedAt}
-          isLoading={isLoading}
-          isNotFound={isNotFound()}
-        />
-        <Editor id={id} hash={hash} post={post} isLoading={isLoading} />
-      </Stack>
-    </>
+    <Paper>
+      <Box p={4}>
+        <Stack spacing={2}>
+          <Meta title={post?.title} description={post?.body} />
+          <Breadcrumbs path={id} />
+          <EditorHeader
+            id={id}
+            hash={hash}
+            created={post?.createdAt}
+            updated={post?.updatedAt}
+            isLoading={isLoading}
+            isNotFound={isNotFound()}
+          />
+          <Editor id={id} hash={hash} post={post} isLoading={isLoading} />
+        </Stack>
+      </Box>
+    </Paper>
   )
 }
 

@@ -1,4 +1,4 @@
-import { Box, Container, Paper } from '@mui/material'
+import { Container } from '@mui/material'
 import { Route, Routes } from 'react-router-dom'
 import { LoadingProgress } from './components/common/LoadingProgress'
 import EditorPage from './components/Editor/EditorPage'
@@ -8,28 +8,22 @@ import { SignInPage } from './components/SignIn/SignInPage'
 import { AuthProvider } from './context/AuthContext'
 import { LoadingProvider } from './context/LoadingContext'
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <AuthProvider>
-        <LoadingProvider>
-          <Container maxWidth="md">
+      <Container disableGutters>
+        <AuthProvider>
+          <LoadingProvider>
             <LoadingProgress />
-            <Paper>
-              <Box p={4}>
-                <Routes>
-                  <Route path="/*" element={<PostPage />} />
-                  <Route path="/signin" element={<SignInPage />} />
-                  <Route path="/edit/*" element={<EditorPage />} />
-                  <Route path="/playground" element={<Playground />} />
-                </Routes>
-              </Box>
-            </Paper>
-          </Container>
-        </LoadingProvider>
-      </AuthProvider>
+            <Routes>
+              <Route path="/*" element={<PostPage />} />
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/edit/*" element={<EditorPage />} />
+              <Route path="/playground" element={<Playground />} />
+            </Routes>
+          </LoadingProvider>
+        </AuthProvider>
+      </Container>
     </div>
   )
 }
-
-export default App

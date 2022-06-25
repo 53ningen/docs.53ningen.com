@@ -34,7 +34,14 @@ export const Section: FC<SectionProps> = ({ children, node }) => {
     color: 'inherit',
   })
   return (
-    <Stack direction="row" display="flex" pt={1} pb={1} borderBottom={tagName === 'h1' ? 1 : 0} borderColor="silver">
+    <Stack
+      direction="row"
+      display="flex"
+      pt={1}
+      pb={1}
+      borderBottom={tagName === 'h1' ? 1 : 0}
+      borderColor="silver"
+      mb={tagName === 'h1' ? 2 : 0}>
       <Typography id={id} variant={tagName} sx={{ marginRight: 'auto' }}>
         <A className="headers" href={`#${id}`}>
           {children}

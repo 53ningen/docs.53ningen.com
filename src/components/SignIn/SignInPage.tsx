@@ -1,4 +1,4 @@
-import { Button, Container, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, Paper, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Constants } from '../../Constants'
@@ -30,29 +30,33 @@ export const SignInPage = () => {
     await signIn(username, password)
   }
   return (
-    <Container maxWidth="xs">
-      <Meta title={`Sign into ${siteUrl}`} description="Sign in page" />
-      <Stack spacing={4} textAlign="center">
-        <Breadcrumbs path="/signin" />
-        <Typography variant="h1">Sign into docs.53ningen.com</Typography>
-        <form onSubmit={onSubmit}>
-          <Stack spacing={4}>
-            <TextField id="username" label="Username" defaultValue="" onChange={onUsernameChange} />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              onChange={onPasswordChange}
-            />
-            <Stack direction="row" flex="flow">
-              <Button type="submit" variant="contained" sx={{ marginLeft: 'auto' }}>
-                Sign in
-              </Button>
-            </Stack>
+    <Container maxWidth="sm">
+      <Paper>
+        <Box p={4}>
+          <Meta title={`Sign into ${siteUrl}`} description="Sign in page" />
+          <Stack spacing={4} textAlign="center">
+            <Breadcrumbs path="/signin" />
+            <Typography variant="h1">Sign into docs.53ningen.com</Typography>
+            <form onSubmit={onSubmit}>
+              <Stack spacing={4}>
+                <TextField id="username" label="Username" defaultValue="" onChange={onUsernameChange} />
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  onChange={onPasswordChange}
+                />
+                <Stack direction="row" flex="flow">
+                  <Button type="submit" variant="contained" sx={{ marginLeft: 'auto' }}>
+                    Sign in
+                  </Button>
+                </Stack>
+              </Stack>
+            </form>
           </Stack>
-        </form>
-      </Stack>
+        </Box>
+      </Paper>
     </Container>
   )
 }

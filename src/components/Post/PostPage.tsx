@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material'
-import { useEffect } from 'react'
+import { Box, Drawer, Paper, Stack } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Constants } from '../../Constants'
 import { useLoadingContext } from '../../context/LoadingContext'
@@ -9,10 +9,13 @@ import { Footer } from '../common/Footer'
 import { Meta } from '../common/Meta'
 import { ShareButtons } from '../common/ShareButtons'
 import { SignInOutButton } from '../common/SignInOutButton'
+import { TOC } from '../common/TOC'
 import { PostBody } from './PostBody'
 import { PostHeader } from './PostHeader'
 
-function PostPage() {
+const drawerWidth = 300
+
+const PostPage = () => {
   const { pathname: id } = useLocation()
   const { post, isLoading } = usePost(id)
   const { setLoading } = useLoadingContext()
@@ -29,22 +32,71 @@ function PostPage() {
       navigate(`/edit${id}`)
     }
   }, [post, isLoading, id, navigate, setLoading])
+
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+  const container = window !== undefined ? () => document.body : undefined
+  const drawer = (
+    <Stack spacing={4}>
+      <Breadcrumbs path={post?.id} />
+      <TOC body={post?.body} depth={3} />
+      <SignInOutButton />
+    </Stack>
+  )
+
   return (
-    <>
-      <Stack spacing={2}>
-        <Meta title={shareTitle} description={post?.body} />
-        <Stack direction="row" flex="flow">
-          <Breadcrumbs path={post?.id} />
-          <SignInOutButton sx={{ marginLeft: 'auto' }} />
-        </Stack>
-        <PostHeader post={post} />
-        <PostBody body={post?.body} />
-        <Stack direction="row" spacing={2} pt={8}>
-          <ShareButtons url={shareUrl} title={shareTitle} size={24} />
-        </Stack>
-        <Footer />
-      </Stack>
-    </>
+    <Box sx={{ display: 'flex' }}>
+      <Meta title={shareTitle} description={post?.body} />
+      <Box sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}>
+          <Box p={2}>{drawer}</Box>
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'none', md: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+              right: '12%',
+            },
+          }}
+          open>
+          <Box p={2}>{drawer}</Box>
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, width: { md: '80%', sm: `calc(100% - ${drawerWidth}px)`, xs: '100%' } }}
+        minHeight="100%">
+        <Paper square variant="outlined">
+          <Box p={4}>
+            <Stack spacing={2}>
+              <Stack direction="row" flex="flow"></Stack>
+              <PostHeader post={post} />
+              <PostBody body={post?.body} />
+              <Stack direction="row" spacing={2} pt={8}>
+                <ShareButtons url={shareUrl} title={shareTitle} size={24} />
+              </Stack>
+              <Footer />
+            </Stack>
+          </Box>
+        </Paper>
+      </Box>
+    </Box>
   )
 }
 

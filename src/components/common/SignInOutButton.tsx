@@ -18,7 +18,7 @@ export const SignInOutButton: FC<SignInOutButtonProps> = ({ sx }) => {
     }
   }
   return (
-    <Button onClick={onClick} variant="outlined" sx={sx} size="small">
+    <Button onClick={onClick} variant={isAuthenticated ? 'contained' : 'outlined'} sx={sx} size="small">
       {isAuthenticated ? 'Sign Out' : 'Sign In'}
     </Button>
   )
