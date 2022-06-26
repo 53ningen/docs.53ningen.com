@@ -24,7 +24,7 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[rehypeRaw, rehypeKatex]}
           components={{
-            blockquote: ({ children }) => <blockquote style={{ paddingBottom: '-30px' }}>{children}</blockquote>,
+            blockquote: ({ children }) => <blockquote style={{ marginLeft: 0 }}>{children}</blockquote>,
             h1: ({ node, children }) => <Section node={node}>{children}</Section>,
             h2: ({ node, children }) => <Section node={node}>{children}</Section>,
             h3: ({ node, children }) => <Section node={node}>{children}</Section>,

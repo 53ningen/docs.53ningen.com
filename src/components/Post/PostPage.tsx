@@ -1,4 +1,4 @@
-import { Box, Drawer, Paper, Stack } from '@mui/material'
+import { Box, Drawer, Paper, Stack, Toolbar } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Constants } from '../../Constants'
@@ -40,12 +40,14 @@ const PostPage = () => {
   }
   const container = window !== undefined ? () => document.body : undefined
   const drawer = (
-    <Stack spacing={4}>
-      <Breadcrumbs path={post?.id} />
-      <TOC body={post?.body} depth={3} />
-      <RecentUpdates />
-      <SignInOutButton />
-    </Stack>
+    <>
+      <Toolbar />
+      <Stack spacing={4}>
+        <TOC body={post?.body} depth={3} />
+        <RecentUpdates />
+        <SignInOutButton />
+      </Stack>
+    </>
   )
 
   return (
@@ -87,7 +89,7 @@ const PostPage = () => {
         <Paper square variant="outlined">
           <Box p={4}>
             <Stack spacing={2}>
-              <Stack direction="row" flex="flow"></Stack>
+              <Breadcrumbs path={post?.id} />
               <PostHeader post={post} />
               <PostBody body={post?.body} />
               <Stack direction="row" spacing={2} pt={8}>
