@@ -18,7 +18,10 @@ export default function App() {
             <Routes>
               <Route path="/*" element={<PostPage />} />
               <Route path="/signin" element={<SignInPage />} />
+              <Route path="/private" element={<PostPage />} />
+              <Route path="/private/*" element={<PostPage />} />
               <Route path="/edit/*" element={<EditorPage />} />
+              <Route path="/edit/private/*" element={<EditorPage />} />
               <Route path="/playground" element={<Playground />} />
             </Routes>
           </LoadingProvider>

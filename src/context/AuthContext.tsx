@@ -8,6 +8,7 @@ type AuthContextProps = {
   user?: CognitoUser
   signIn: (username: string, password: string) => Promise<void>
   signOut: () => Promise<void>
+  token?: string
   error: any
 }
 
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
   signOut: async () => {},
   signIn: async () => {},
+  token: undefined,
   error: undefined,
 })
 
@@ -29,16 +31,20 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<CognitoUser>()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [error, setError] = useState<any>()
+  const [token, setToken] = useState<string>()
 
   useEffect(() => {
     const updateStates = async () => {
       try {
         const u: CognitoUser = await Auth.currentAuthenticatedUser()
+        const token = (await Auth.currentSession()).getIdToken().getJwtToken()
         setUser(u)
+        setToken(token)
         setIsAuthenticated(true)
       } catch (e) {
         setError(e)
         setUser(undefined)
+        setToken(undefined)
         setIsAuthenticated(false)
       }
     }
@@ -62,7 +68,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     try {
       await Auth.signIn(username, password)
       const u: CognitoUser = await Auth.currentAuthenticatedUser()
+      const token = (await Auth.currentSession()).getIdToken().getJwtToken()
       setUser(u)
+      setToken(token)
       setIsAuthenticated(true)
     } catch (e) {
       setError(e)
@@ -76,6 +84,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(false)
   }
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signOut, error }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signOut, error, token }}>
+      {children}
+    </AuthContext.Provider>
   )
 }

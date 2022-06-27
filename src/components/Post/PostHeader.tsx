@@ -16,7 +16,7 @@ export const PostHeader: FC<PostHeaderProps> = ({ post }) => {
       <Stack spacing={2}>
         <Stack flex="flow" direction="row">
           <Box marginRight="auto">
-            <PostTitle title={post.title} />
+            <PostTitle title={post.title} isPrivate={post.id === '/private' || post.id.startsWith('/private/')} />
           </Box>
           <SectionButtons editUrl={`/edit${post.id}`} copyUrl={url} />
         </Stack>
@@ -26,7 +26,7 @@ export const PostHeader: FC<PostHeaderProps> = ({ post }) => {
   } else {
     return (
       <Stack spacing={2}>
-        <PostTitle />
+        <PostTitle isPrivate={false} />
         <PostDate showPlaceholder />
       </Stack>
     )

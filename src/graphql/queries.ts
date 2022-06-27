@@ -70,3 +70,44 @@ export const listPostsOrderByUpdatedAt = /* GraphQL */ `
     }
   }
 `;
+export const getPrivatePost = /* GraphQL */ `
+  query GetPrivatePost($id: ID!) {
+    getPrivatePost(id: $id) {
+      id
+      title
+      body
+      owner
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPrivatePosts = /* GraphQL */ `
+  query ListPrivatePosts(
+    $id: ID
+    $filter: ModelPrivatePostFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listPrivatePosts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        title
+        body
+        owner
+        type
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

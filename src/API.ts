@@ -85,6 +85,53 @@ export type DeletePostInput = {
   id: string,
 };
 
+export type CreatePrivatePostInput = {
+  id?: string | null,
+  title: string,
+  body: string,
+  owner?: Array< string | null > | null,
+  type: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type ModelPrivatePostConditionInput = {
+  title?: ModelStringInput | null,
+  body?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  type?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelPrivatePostConditionInput | null > | null,
+  or?: Array< ModelPrivatePostConditionInput | null > | null,
+  not?: ModelPrivatePostConditionInput | null,
+};
+
+export type PrivatePost = {
+  __typename: "PrivatePost",
+  id: string,
+  title: string,
+  body: string,
+  owner?: Array< string | null > | null,
+  type: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdatePrivatePostInput = {
+  id: string,
+  title?: string | null,
+  body?: string | null,
+  owner?: Array< string | null > | null,
+  type?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type DeletePrivatePostInput = {
+  id: string,
+};
+
 export type ModelPostFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -135,6 +182,25 @@ export type ModelStringKeyConditionInput = {
   beginsWith?: string | null,
 };
 
+export type ModelPrivatePostFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  body?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  type?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelPrivatePostFilterInput | null > | null,
+  or?: Array< ModelPrivatePostFilterInput | null > | null,
+  not?: ModelPrivatePostFilterInput | null,
+};
+
+export type ModelPrivatePostConnection = {
+  __typename: "ModelPrivatePostConnection",
+  items:  Array<PrivatePost | null >,
+  nextToken?: string | null,
+};
+
 export type CreatePostMutationVariables = {
   input: CreatePostInput,
   condition?: ModelPostConditionInput | null,
@@ -180,6 +246,60 @@ export type DeletePostMutation = {
     id: string,
     title: string,
     body: string,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreatePrivatePostMutationVariables = {
+  input: CreatePrivatePostInput,
+  condition?: ModelPrivatePostConditionInput | null,
+};
+
+export type CreatePrivatePostMutation = {
+  createPrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdatePrivatePostMutationVariables = {
+  input: UpdatePrivatePostInput,
+  condition?: ModelPrivatePostConditionInput | null,
+};
+
+export type UpdatePrivatePostMutation = {
+  updatePrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeletePrivatePostMutationVariables = {
+  input: DeletePrivatePostInput,
+  condition?: ModelPrivatePostConditionInput | null,
+};
+
+export type DeletePrivatePostMutation = {
+  deletePrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
     type: string,
     createdAt: string,
     updatedAt: string,
@@ -251,6 +371,48 @@ export type ListPostsOrderByUpdatedAtQuery = {
   } | null,
 };
 
+export type GetPrivatePostQueryVariables = {
+  id: string,
+};
+
+export type GetPrivatePostQuery = {
+  getPrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListPrivatePostsQueryVariables = {
+  id?: string | null,
+  filter?: ModelPrivatePostFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListPrivatePostsQuery = {
+  listPrivatePosts?:  {
+    __typename: "ModelPrivatePostConnection",
+    items:  Array< {
+      __typename: "PrivatePost",
+      id: string,
+      title: string,
+      body: string,
+      owner?: Array< string | null > | null,
+      type: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreatePostSubscription = {
   onCreatePost?:  {
     __typename: "Post",
@@ -281,6 +443,45 @@ export type OnDeletePostSubscription = {
     id: string,
     title: string,
     body: string,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreatePrivatePostSubscription = {
+  onCreatePrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdatePrivatePostSubscription = {
+  onUpdatePrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
+    type: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeletePrivatePostSubscription = {
+  onDeletePrivatePost?:  {
+    __typename: "PrivatePost",
+    id: string,
+    title: string,
+    body: string,
+    owner?: Array< string | null > | null,
     type: string,
     createdAt: string,
     updatedAt: string,

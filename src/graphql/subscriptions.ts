@@ -38,3 +38,42 @@ export const onDeletePost = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePrivatePost = /* GraphQL */ `
+  subscription OnCreatePrivatePost {
+    onCreatePrivatePost {
+      id
+      title
+      body
+      owner
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePrivatePost = /* GraphQL */ `
+  subscription OnUpdatePrivatePost {
+    onUpdatePrivatePost {
+      id
+      title
+      body
+      owner
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePrivatePost = /* GraphQL */ `
+  subscription OnDeletePrivatePost {
+    onDeletePrivatePost {
+      id
+      title
+      body
+      owner
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;

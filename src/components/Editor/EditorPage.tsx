@@ -13,7 +13,8 @@ function EditorPage() {
   const { isAuthenticated } = useAuthContext()
   const { pathname, hash } = useLocation()
   const { setLoading } = useLoadingContext()
-  const id = pathname.slice('/edit'.length, pathname.length)
+  const path = pathname.slice('/edit'.length, pathname.length)
+  const id = path.endsWith('/') && path !== '/' ? path.slice(0, path.length - 1) : path
   const { post, isLoading } = usePost(id)
   const isNotFound = () => !isLoading && !post
 
@@ -32,7 +33,7 @@ function EditorPage() {
     <Paper>
       <Box p={4}>
         <Stack spacing={2}>
-          <Meta title={post?.title} description={post?.body} />
+          <Meta title={`Editing: ${id}`} description={post?.body} />
           <Breadcrumbs path={id} />
           <EditorHeader
             id={id}
@@ -42,7 +43,7 @@ function EditorPage() {
             isLoading={isLoading}
             isNotFound={isNotFound()}
           />
-          <Editor id={id} hash={hash} post={post} isLoading={isLoading} />
+          <Editor path={id} hash={hash} post={post} isLoading={isLoading} />
         </Stack>
       </Box>
     </Paper>

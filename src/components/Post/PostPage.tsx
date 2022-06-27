@@ -1,5 +1,5 @@
 import { Box, Drawer, Paper, Stack, Toolbar } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Constants } from '../../Constants'
 import { useLoadingContext } from '../../context/LoadingContext'
@@ -16,9 +16,11 @@ import { PostHeader } from './PostHeader'
 
 const drawerWidth = 300
 
-const PostPage = () => {
-  const { pathname: id } = useLocation()
-  const { post, isLoading } = usePost(id)
+const PostPage: FC = () => {
+  const { pathname } = useLocation()
+  const id = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, pathname.length - 1) : pathname
+
+  const { post, isLoading, isNotFound, error } = usePost(id)
   const { setLoading } = useLoadingContext()
   const { siteTitle, siteUrl } = Constants
   const shareTitle = id === '/' ? siteTitle : `${post?.title} | ${siteTitle}`
@@ -27,12 +29,12 @@ const PostPage = () => {
   const navigate = useNavigate()
   useEffect(() => {
     setLoading(isLoading)
-    if (id !== '/' && id.endsWith('/')) {
-      navigate(id.substring(0, id.length - 1))
-    } else if (!isLoading && !post) {
+    if (!isLoading && isNotFound) {
       navigate(`/edit${id}`)
+    } else if (!isLoading && error) {
+      navigate(`/`)
     }
-  }, [post, isLoading, id, navigate, setLoading])
+  }, [post, isLoading, id, navigate, setLoading, isNotFound, error])
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const handleDrawerToggle = () => {
@@ -49,7 +51,6 @@ const PostPage = () => {
       </Stack>
     </>
   )
-
   return (
     <Box sx={{ display: 'flex' }}>
       <Meta title={shareTitle} description={post?.body} />

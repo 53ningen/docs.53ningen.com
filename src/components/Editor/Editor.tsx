@@ -3,27 +3,36 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Post } from '../../API'
+import { useAuthContext } from '../../context/AuthContext'
 import { useLoadingContext } from '../../context/LoadingContext'
-import { createPost, deletePost, updatePost } from '../../graphql/mutations'
+import {
+  createPost,
+  createPrivatePost,
+  deletePost,
+  deletePrivatePost,
+  updatePost,
+  updatePrivatePost,
+} from '../../graphql/mutations'
 import { DeleteButton } from './DeleteButton'
 import { getSectionBody, replaceSection } from './EditorUtils'
 import { SaveButton } from './SaveButton'
 
 type EditorProps = {
-  id: string
+  path: string
   hash: string
   post?: Post
   isLoading: boolean
 }
 
-export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
+export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
+  const id = path.endsWith('/') && path !== '/' ? path.slice(0, path.length - 1) : path
   const deleteConfirmMessage = `Are you sure you want to delete the page: ${post?.id}?`
   const navigate = useNavigate()
+  const { token } = useAuthContext()
   const [titleText, setTitle] = useState('')
   const [bodyText, setBody] = useState('')
   const [mounted, setMounted] = useState(false)
   const { setLoading } = useLoadingContext()
-
   useEffect(() => {
     if (!mounted && post) {
       setTitle(post.title)
@@ -43,7 +52,14 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
     if (post) {
       try {
         setLoading(true)
-        const res = await API.graphql(graphqlOperation(deletePost, { input: { id: post.id } }))
+        const isPrivate = id === '/private' || id.startsWith('/private/')
+        const res = await API.graphql(
+          graphqlOperation(
+            isPrivate ? deletePrivatePost : deletePost,
+            { input: { id: post.id } },
+            isPrivate ? token : undefined
+          )
+        )
         if ('data' in res && res.data) {
           navigate('/')
           return
@@ -57,17 +73,28 @@ export const Editor: FC<EditorProps> = ({ id, hash, post, isLoading }) => {
   }
   const onClickSave = async () => {
     if (isLoading) return
-    const query = post ? updatePost : createPost
+    const isPrivate = id === '/private' || id.startsWith('/private/')
+    const query = post ? (isPrivate ? updatePrivatePost : updatePost) : isPrivate ? createPrivatePost : createPost
     const body = post && hash ? replaceSection(hash, bodyText, post.body) : bodyText
     try {
       setLoading(true)
       const res = await API.graphql(
-        graphqlOperation(query, {
-          input: { id, title: titleText, body, type: 'Post' },
-        })
+        graphqlOperation(
+          query,
+          {
+            input: { id, title: titleText, body, type: 'Post' },
+          },
+          isPrivate ? token : undefined
+        )
       )
       if ('data' in res && res.data) {
-        const id: string = post ? res.data.updatePost.id : res.data.createPost.id
+        const id: string = post
+          ? isPrivate
+            ? res.data.updatePrivatePost.id
+            : res.data.updatePost.id
+          : isPrivate
+          ? res.data.createPrivatePost.id
+          : res.data.createPost.id
         navigate(id)
         return
       }

@@ -13,6 +13,10 @@
         "expirationTime": 365,
         "apiKeyExpirationDate": "2023-06-09T18:20:06.751Z",
         "keyDescription": "for testing"
+      },
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authmdwiki"
       }
     ],
     "conflictResolution": {}
