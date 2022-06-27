@@ -1,9 +1,8 @@
 import { Box, TextField } from '@mui/material'
-import { API, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Post } from '../../API'
-import { useAuthContext } from '../../context/AuthContext'
 import { useLoadingContext } from '../../context/LoadingContext'
 import {
   createPost,
@@ -28,7 +27,6 @@ export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
   const id = path.endsWith('/') && path !== '/' ? path.slice(0, path.length - 1) : path
   const deleteConfirmMessage = `Are you sure you want to delete the page: ${post?.id}?`
   const navigate = useNavigate()
-  const { token } = useAuthContext()
   const [titleText, setTitle] = useState('')
   const [bodyText, setBody] = useState('')
   const [mounted, setMounted] = useState(false)
@@ -49,6 +47,8 @@ export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
   const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)
   const onClickDelete = async () => {
+    const session = await Auth.currentSession()
+    const token = session.getIdToken().getJwtToken()
     if (post) {
       try {
         setLoading(true)
@@ -73,6 +73,8 @@ export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
   }
   const onClickSave = async () => {
     if (isLoading) return
+    const session = await Auth.currentSession()
+    const token = session.getIdToken().getJwtToken()
     const isPrivate = id === '/private' || id.startsWith('/private/')
     const query = post ? (isPrivate ? updatePrivatePost : updatePost) : isPrivate ? createPrivatePost : createPost
     const body = post && hash ? replaceSection(hash, bodyText, post.body) : bodyText

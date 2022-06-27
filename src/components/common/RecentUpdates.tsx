@@ -48,7 +48,9 @@ export const RecentUpdates = () => {
           Recent Updates
         </Typography>
         {posts.map((p) => (
-          <Link href={p.id}>{p.title}</Link>
+          <Link href={p.id} key={p.id}>
+            {p.title}
+          </Link>
         ))}
       </Stack>
     )

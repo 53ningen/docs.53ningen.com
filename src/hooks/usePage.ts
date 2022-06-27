@@ -1,11 +1,9 @@
-import { API, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { useEffect, useState } from 'react'
 import { Post } from '../API'
-import { useAuthContext } from '../context/AuthContext'
 import { getPost, getPrivatePost } from '../graphql/queries'
 
 export const usePost = (path: string) => {
-  const { token } = useAuthContext()
   const [post, setPost] = useState<Post>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isNotFound, setIsNotFound] = useState<boolean>(false)
@@ -27,7 +25,6 @@ export const usePost = (path: string) => {
           setIsNotFound(true)
           return
         }
-
         throw Error('invalid response')
       } catch (e: any) {
         if (e instanceof Error) {
@@ -43,12 +40,15 @@ export const usePost = (path: string) => {
     }
     const fetchPrivatePost = async () => {
       try {
+        const session = await Auth.currentSession()
+        const token = session.getIdToken().getJwtToken()
         const res = await API.graphql(graphqlOperation(getPrivatePost, { id }, token))
         if ('data' in res && res.data.getPrivatePost) {
           setPost(res.data.getPrivatePost as Post)
           return
         } else if ('data' in res && res.data.getPrivatePost === null) {
           setPost(undefined)
+          setIsNotFound(true)
         }
         throw Error('invalid response')
       } catch (e: any) {
@@ -69,6 +69,6 @@ export const usePost = (path: string) => {
     } else {
       fetchPost()
     }
-  }, [id, token])
+  }, [id])
   return { post, isLoading, error, isNotFound }
 }
