@@ -39,7 +39,7 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
             img: ({ alt, ...props }) => <img alt={alt} {...props} style={{ maxWidth: '100%' }} />,
             ul: ({ children, depth, ...props }) =>
               depth === 0 ? (
-                <Box mb={4}>
+                <Box mb={1}>
                   <ul style={{ marginTop: 0, paddingTop: 0, paddingLeft: '1em' }} {...props}>
                     {children}
                   </ul>
@@ -49,7 +49,7 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
               ),
             ol: ({ children, depth, ...props }) =>
               depth === 0 ? (
-                <Box mb={4}>
+                <Box mb={1}>
                   <ol style={{ paddingLeft: '1em' }}>{children}</ol>
                 </Box>
               ) : (
