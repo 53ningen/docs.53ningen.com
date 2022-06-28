@@ -1,4 +1,4 @@
-import { Skeleton } from '@mui/material'
+import { Box, Skeleton } from '@mui/material'
 import { Storage } from 'aws-amplify'
 import { FC, useEffect, useState } from 'react'
 
@@ -19,9 +19,20 @@ export const S3Image: FC<S3ImageProps> = ({ imgKey, level }) => {
     }
     getImage()
   }, [imgKey, level])
-  if (signedUrl) {
-    return <img src={signedUrl} alt="" style={{ maxWidth: '100%' }} />
-  } else {
-    return <Skeleton variant="rectangular" width={200} height={100} />
-  }
+  return (
+    <Box textAlign="center">
+      {signedUrl ? (
+        <img src={signedUrl} alt="" style={{ maxWidth: '100%' }} />
+      ) : (
+        <>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </>
+      )}
+    </Box>
+  )
 }
