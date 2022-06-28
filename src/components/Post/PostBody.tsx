@@ -10,6 +10,7 @@ import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import { Link } from '../common/Link'
+import { S3Image } from '../common/S3Image'
 import { Section } from './Section'
 
 type PostBodyProps = {
@@ -36,7 +37,13 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
                 {children}
               </Typography>
             ),
-            img: ({ alt, ...props }) => <img alt={alt} {...props} style={{ maxWidth: '100%' }} />,
+            img: ({ src, alt, ...props }) => {
+              if (src?.startsWith('http') ?? true) {
+                return <img src={src} alt={alt} {...props} style={{ maxWidth: '100%' }} />
+              } else {
+                return <S3Image imgKey={src} level="public" />
+              }
+            },
             ul: ({ children, depth, ...props }) =>
               depth === 0 ? (
                 <Box mb={1}>

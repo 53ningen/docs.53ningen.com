@@ -22,5 +22,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
+    },
+    "storage": {
+        "mdwikistore": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

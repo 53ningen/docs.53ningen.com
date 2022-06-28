@@ -1,7 +1,9 @@
-import { Box, TextField } from '@mui/material'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { Box, TextField, Typography } from '@mui/material'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
+import { ChangeEvent, FC, SyntheticEvent, useCallback, useEffect, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import { Post } from '../../API'
 import { useLoadingContext } from '../../context/LoadingContext'
 import {
@@ -29,22 +31,50 @@ export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
   const navigate = useNavigate()
   const [titleText, setTitle] = useState('')
   const [bodyText, setBody] = useState('')
+  const [bodyPos, setBodyPos] = useState(0)
   const [mounted, setMounted] = useState(false)
+
   const { setLoading } = useLoadingContext()
   useEffect(() => {
     if (!mounted && post) {
       setTitle(post.title)
       if (hash) {
-        setBody(getSectionBody(hash, post.body))
+        const sectionBody = getSectionBody(hash, post.body)
+        setBody(sectionBody)
+        setBodyPos(sectionBody.length)
       } else {
         setBody(post.body)
+        setBodyPos(post.body.length)
       }
       setMounted(true)
       setLoading(false)
     }
   }, [post, hash, setLoading, isLoading, mounted])
-
-  const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
+  const onDrop = useCallback(
+    async (f: File[]) => {
+      try {
+        const file = f[0]
+        const now = new Date()
+        const fileId = `${now.getFullYear()}/${now.getMonth()}/${uuidv4()}`
+        const res = await Storage.put(fileId, file, { level: 'public', contentType: file.type })
+        const newBody = bodyText.slice(0, bodyPos) + `![](${res.key})\n` + bodyText.slice(bodyPos, bodyText.length)
+        setBody(newBody)
+      } catch (e) {
+        // TODO: エラー処理
+        console.log(e)
+      } finally {
+      }
+    },
+    [bodyPos, bodyText]
+  )
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
+  const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setBody(e.target.value)
+  }
+  const onSelectBody = (e: SyntheticEvent<HTMLDivElement>) => {
+    const elem = e.target as any
+    setBodyPos(elem.selectionStart)
+  }
   const onChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => setTitle(e.target.value)
   const onClickDelete = async () => {
     const session = await Auth.currentSession()
@@ -124,10 +154,24 @@ export const Editor: FC<EditorProps> = ({ path, hash, post, isLoading }) => {
         fullWidth
         value={bodyText}
         onChange={onChangeBody}
+        onSelect={onSelectBody}
       />
       <Box display="flex">
         <DeleteButton confirmMessage={deleteConfirmMessage} disabled={!post} onClick={onClickDelete} />
         <SaveButton onClick={onClickSave} disabled={isLoading} sx={{ marginLeft: 'auto' }} />
+      </Box>
+      <Box
+        width="100%"
+        {...getRootProps()}
+        border={1}
+        borderRadius={2}
+        borderColor="gray"
+        bgcolor="lightgray"
+        textAlign="center">
+        <input {...getInputProps()} />
+        <Typography p={4} variant="h1">
+          Drop the files here
+        </Typography>
       </Box>
     </>
   )

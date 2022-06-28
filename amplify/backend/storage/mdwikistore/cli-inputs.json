@@ -1,0 +1,15 @@
+{
+  "resourceName": "mdwikistore",
+  "policyUUID": "e22822cd",
+  "bucketName": "mdwikistore",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE"
+}
