@@ -1,5 +1,4 @@
 import EditIcon from '@mui/icons-material/Edit'
-import LinkIcon from '@mui/icons-material/Link'
 import { Box, IconButton, Stack, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,20 +24,20 @@ export const SectionButtons: FC<SectionButtonsProps> = ({ copyUrl, editUrl }) =>
         ) : (
           <></>
         )}
-        <Tooltip title="Copy URL">
+        {/* <Tooltip title="Copy URL">
           <IconButton size="small" onClick={() => copy(copyUrl)}>
             <LinkIcon />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </Stack>
     </Box>
   )
 }
 
-const copy = async (url: string) => {
-  if ('clipboard' in navigator) {
-    return await navigator.clipboard.writeText(url)
-  } else {
-    return document.execCommand('copy', true, url)
-  }
-}
+// const copy = async (url: string) => {
+//   if ('clipboard' in navigator) {
+//     return await navigator.clipboard.writeText(url)
+//   } else {
+//     return document.execCommand('copy', true, url)
+//   }
+// }

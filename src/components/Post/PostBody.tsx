@@ -46,7 +46,7 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
             },
             ul: ({ children, depth, ...props }) =>
               depth === 0 ? (
-                <Box mb={1}>
+                <Box mb={2}>
                   <ul style={{ marginTop: 0, paddingTop: 0, paddingLeft: '1em' }} {...props}>
                     {children}
                   </ul>
@@ -56,11 +56,13 @@ export const PostBody: FC<PostBodyProps> = ({ body }) => {
               ),
             ol: ({ children, depth, ...props }) =>
               depth === 0 ? (
-                <Box mb={1}>
-                  <ol style={{ paddingLeft: '1em' }}>{children}</ol>
+                <Box mb={2}>
+                  <ol style={{ marginTop: 0, paddingTop: 0, paddingLeft: '1em' }} {...props}>
+                    {children}
+                  </ol>
                 </Box>
               ) : (
-                <ol style={{ paddingLeft: 0, marginLeft: '1em' }} {...props}>
+                <ol style={{ marginTop: 0, paddingTop: 0, paddingLeft: 0, marginLeft: '1em' }} {...props}>
                   {children}
                 </ol>
               ),

@@ -37,7 +37,7 @@ export const Section: FC<SectionProps> = ({ children, node }) => {
     <Stack
       direction="row"
       display="flex"
-      pt={1}
+      pt={tagName === 'h1' ? 2 : 1}
       pb={1}
       borderBottom={tagName === 'h1' ? 1 : 0}
       borderColor="silver"
