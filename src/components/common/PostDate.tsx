@@ -9,12 +9,12 @@ type PostDateProps = {
 
 export const PostDate: FC<PostDateProps> = ({ created, updated, showPlaceholder }) => {
   if (created && updated) {
-    const c = new Date(created).toLocaleString()
-    const u = new Date(updated).toLocaleString()
+    const c = getDateTime(new Date(created))
+    const u = getDateTime(new Date(updated))
     return (
       <Box>
-        <Chip variant="outlined" size="small" label={`Created: ${c}`} />{' '}
-        <Chip variant="outlined" size="small" label={`Updated: ${u}`} />
+        <Chip variant="outlined" size="small" label={`📝 ${c}`} />{' '}
+        <Chip variant="outlined" size="small" label={`🔄 ${u}`} />
       </Box>
     )
   } else if (showPlaceholder) {
@@ -26,4 +26,10 @@ export const PostDate: FC<PostDateProps> = ({ created, updated, showPlaceholder 
   } else {
     return <></>
   }
+}
+
+const getDateTime = (d: Date) => {
+  const hh = d.getHours().toLocaleString(undefined, { minimumIntegerDigits: 2 })
+  const mm = d.getHours().toLocaleString(undefined, { minimumIntegerDigits: 2 })
+  return `${d.toLocaleDateString()} ${hh}:${mm}`
 }
