@@ -54,7 +54,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: 14,
-      overflowWrap: 'break-word',
+      overflowWrap: 'anywhere',
     },
     button: {
       textTransform: 'none',
